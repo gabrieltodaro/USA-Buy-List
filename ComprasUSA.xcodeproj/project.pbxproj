@@ -7,9 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B3470A4829B7FE3800584AFD /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3470A4729B7FE3800584AFD /* UITableView.swift */; };
+		B3470A4E29B8176500584AFD /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3470A4D29B8176500584AFD /* SettingsViewController.swift */; };
+		B3470A5029B8177000584AFD /* TotalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3470A4F29B8177000584AFD /* TotalViewController.swift */; };
+		B3470A5229B817A200584AFD /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3470A5129B817A200584AFD /* ItemViewController.swift */; };
 		B3C51F6329B162CC009C879E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C51F6229B162CC009C879E /* AppDelegate.swift */; };
 		B3C51F6529B162CC009C879E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C51F6429B162CC009C879E /* SceneDelegate.swift */; };
-		B3C51F6729B162CC009C879E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C51F6629B162CC009C879E /* ViewController.swift */; };
+		B3C51F6729B162CC009C879E /* ShopListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C51F6629B162CC009C879E /* ShopListViewController.swift */; };
 		B3C51F6A29B162CC009C879E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3C51F6829B162CC009C879E /* Main.storyboard */; };
 		B3C51F6D29B162CC009C879E /* ComprasUSA.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B3C51F6B29B162CC009C879E /* ComprasUSA.xcdatamodeld */; };
 		B3C51F6F29B162CD009C879E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3C51F6E29B162CD009C879E /* Assets.xcassets */; };
@@ -17,10 +21,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B3470A4729B7FE3800584AFD /* UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableView.swift; sourceTree = "<group>"; };
+		B3470A4D29B8176500584AFD /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		B3470A4F29B8177000584AFD /* TotalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalViewController.swift; sourceTree = "<group>"; };
+		B3470A5129B817A200584AFD /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
 		B3C51F5F29B162CC009C879E /* ComprasUSA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComprasUSA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3C51F6229B162CC009C879E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B3C51F6429B162CC009C879E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		B3C51F6629B162CC009C879E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B3C51F6629B162CC009C879E /* ShopListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopListViewController.swift; sourceTree = "<group>"; };
 		B3C51F6929B162CC009C879E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B3C51F6C29B162CC009C879E /* ComprasUSA.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ComprasUSA.xcdatamodel; sourceTree = "<group>"; };
 		B3C51F6E29B162CD009C879E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -39,6 +47,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B3470A4629B7FE2E00584AFD /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				B3470A4729B7FE3800584AFD /* UITableView.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		B3470A4C29B8174100584AFD /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				B3C51F6B29B162CC009C879E /* ComprasUSA.xcdatamodeld */,
+				B3C51F6E29B162CD009C879E /* Assets.xcassets */,
+				B3C51F6429B162CC009C879E /* SceneDelegate.swift */,
+				B3C51F6229B162CC009C879E /* AppDelegate.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		B3C51F5629B162CC009C879E = {
 			isa = PBXGroup;
 			children = (
@@ -58,14 +85,15 @@
 		B3C51F6129B162CC009C879E /* ComprasUSA */ = {
 			isa = PBXGroup;
 			children = (
-				B3C51F6229B162CC009C879E /* AppDelegate.swift */,
-				B3C51F6429B162CC009C879E /* SceneDelegate.swift */,
-				B3C51F6629B162CC009C879E /* ViewController.swift */,
+				B3470A4629B7FE2E00584AFD /* Extension */,
+				B3470A4C29B8174100584AFD /* Utils */,
+				B3470A5129B817A200584AFD /* ItemViewController.swift */,
+				B3C51F6629B162CC009C879E /* ShopListViewController.swift */,
+				B3470A4D29B8176500584AFD /* SettingsViewController.swift */,
+				B3470A4F29B8177000584AFD /* TotalViewController.swift */,
 				B3C51F6829B162CC009C879E /* Main.storyboard */,
-				B3C51F6E29B162CD009C879E /* Assets.xcassets */,
 				B3C51F7029B162CD009C879E /* LaunchScreen.storyboard */,
 				B3C51F7329B162CD009C879E /* Info.plist */,
-				B3C51F6B29B162CC009C879E /* ComprasUSA.xcdatamodeld */,
 			);
 			path = ComprasUSA;
 			sourceTree = "<group>";
@@ -141,10 +169,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3C51F6729B162CC009C879E /* ViewController.swift in Sources */,
+				B3470A5029B8177000584AFD /* TotalViewController.swift in Sources */,
+				B3470A5229B817A200584AFD /* ItemViewController.swift in Sources */,
+				B3C51F6729B162CC009C879E /* ShopListViewController.swift in Sources */,
 				B3C51F6D29B162CC009C879E /* ComprasUSA.xcdatamodeld in Sources */,
+				B3470A4829B7FE3800584AFD /* UITableView.swift in Sources */,
 				B3C51F6329B162CC009C879E /* AppDelegate.swift in Sources */,
 				B3C51F6529B162CC009C879E /* SceneDelegate.swift in Sources */,
+				B3470A4E29B8176500584AFD /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
