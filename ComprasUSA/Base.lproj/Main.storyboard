@@ -31,6 +31,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Lista de Compras" id="R0N-yE-dMe"/>
+                    <connections>
+                        <outlet property="shopTableView" destination="Q6H-Bk-nNH" id="heg-U9-5Ye"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -117,6 +120,15 @@
                             <constraint firstItem="avm-0m-Q7M" firstAttribute="trailing" secondItem="6pG-BV-TAw" secondAttribute="trailing" constant="16" id="zzX-qf-MRr"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="addButton" destination="Lfc-vz-Inl" id="zJs-tn-iaU"/>
+                        <outlet property="addIOFButton" destination="kAQ-SI-4aH" id="99d-3T-ZpU"/>
+                        <outlet property="addStateButton" destination="6pG-BV-TAw" id="z79-0c-rU5"/>
+                        <outlet property="productImageView" destination="qNx-3l-QxC" id="0gQ-m8-fmJ"/>
+                        <outlet property="productNameTextField" destination="zb0-op-Hz4" id="UAK-c1-pTM"/>
+                        <outlet property="statePickerView" destination="UXh-6D-hb8" id="eOQ-lg-Gl9"/>
+                        <outlet property="valueInDolarTextField" destination="2zg-iv-lkB" id="g20-tC-csx"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lSc-J4-Qgm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -164,7 +176,7 @@
                                             <constraint firstAttribute="width" constant="80" id="5aI-FL-K8S"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                     </textField>
                                 </subviews>
                             </stackView>
@@ -183,7 +195,7 @@
                                             <constraint firstAttribute="width" constant="80" id="Rl4-5b-YL2"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                     </textField>
                                 </subviews>
                             </stackView>
@@ -199,7 +211,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="0bY-og-t9X">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="0bY-og-t9X">
                                 <rect key="frame" x="0.0" y="307.66666666666674" width="393" height="461.33333333333326"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
@@ -240,6 +252,12 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Ajustes" image="gear" catalog="system" id="7PX-Dc-gJa"/>
                     <navigationItem key="navigationItem" id="ViP-f7-AB0"/>
+                    <connections>
+                        <outlet property="addStateButton" destination="nCT-8F-qbZ" id="chr-Il-L0M"/>
+                        <outlet property="dolarTextField" destination="yuF-cF-603" id="Nsw-1y-F35"/>
+                        <outlet property="iofTextField" destination="cBk-cZ-Die" id="5cp-wE-UK5"/>
+                        <outlet property="statesTableView" destination="0bY-og-t9X" id="4i7-iI-aD3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7CA-Up-GkT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -317,6 +335,10 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Total" image="number" catalog="system" id="nYh-Bf-hjb"/>
                     <navigationItem key="navigationItem" id="gff-Cg-lEu"/>
+                    <connections>
+                        <outlet property="brlTotalLabel" destination="pc5-oM-sGK" id="kCG-wV-rKb"/>
+                        <outlet property="usdTotalLabel" destination="S5c-j3-CkX" id="XA2-MS-6Ue"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XRs-es-5DV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

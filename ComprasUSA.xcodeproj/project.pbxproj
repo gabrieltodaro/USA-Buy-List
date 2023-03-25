@@ -11,6 +11,7 @@
 		B3470A4E29B8176500584AFD /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3470A4D29B8176500584AFD /* SettingsViewController.swift */; };
 		B3470A5029B8177000584AFD /* TotalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3470A4F29B8177000584AFD /* TotalViewController.swift */; };
 		B3470A5229B817A200584AFD /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3470A5129B817A200584AFD /* ItemViewController.swift */; };
+		B3B3152929CF9D52000185FA /* StateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B3152829CF9D52000185FA /* StateCell.swift */; };
 		B3C51F6329B162CC009C879E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C51F6229B162CC009C879E /* AppDelegate.swift */; };
 		B3C51F6529B162CC009C879E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C51F6429B162CC009C879E /* SceneDelegate.swift */; };
 		B3C51F6729B162CC009C879E /* ShopListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C51F6629B162CC009C879E /* ShopListViewController.swift */; };
@@ -25,6 +26,7 @@
 		B3470A4D29B8176500584AFD /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B3470A4F29B8177000584AFD /* TotalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalViewController.swift; sourceTree = "<group>"; };
 		B3470A5129B817A200584AFD /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
+		B3B3152829CF9D52000185FA /* StateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateCell.swift; sourceTree = "<group>"; };
 		B3C51F5F29B162CC009C879E /* ComprasUSA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComprasUSA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3C51F6229B162CC009C879E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B3C51F6429B162CC009C879E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -66,6 +68,14 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		B3B3152729CF9D43000185FA /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B3B3152829CF9D52000185FA /* StateCell.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		B3C51F5629B162CC009C879E = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +95,7 @@
 		B3C51F6129B162CC009C879E /* ComprasUSA */ = {
 			isa = PBXGroup;
 			children = (
+				B3B3152729CF9D43000185FA /* Components */,
 				B3470A4629B7FE2E00584AFD /* Extension */,
 				B3470A4C29B8174100584AFD /* Utils */,
 				B3470A5129B817A200584AFD /* ItemViewController.swift */,
@@ -173,6 +184,7 @@
 				B3470A5229B817A200584AFD /* ItemViewController.swift in Sources */,
 				B3C51F6729B162CC009C879E /* ShopListViewController.swift in Sources */,
 				B3C51F6D29B162CC009C879E /* ComprasUSA.xcdatamodeld in Sources */,
+				B3B3152929CF9D52000185FA /* StateCell.swift in Sources */,
 				B3470A4829B7FE3800584AFD /* UITableView.swift in Sources */,
 				B3C51F6329B162CC009C879E /* AppDelegate.swift in Sources */,
 				B3C51F6529B162CC009C879E /* SceneDelegate.swift in Sources */,
