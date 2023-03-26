@@ -32,7 +32,7 @@ class StateCell: UITableViewCell {
       stackView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
       stackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
       stackView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
-      stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 8),
+      stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
     ])
 
     nameLabel.textAlignment = .left
@@ -44,8 +44,8 @@ class StateCell: UITableViewCell {
 
   }
 
-  func setInfo(name: String, tax: String) {
-    nameLabel.text = name
-    taxLabel.text = tax
+  func setInfo(with state: State) {
+    nameLabel.text = state.name
+    taxLabel.text = state.tax
   }
 }

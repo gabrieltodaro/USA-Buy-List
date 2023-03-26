@@ -7,6 +7,10 @@
 
 import UIKit
 
+struct State {
+  let name, tax: String
+}
+
 class SettingsViewController: UIViewController {
 
   @IBOutlet private weak var dolarTextField: UITextField!
@@ -16,14 +20,13 @@ class SettingsViewController: UIViewController {
 
   private let stateCellId = "stateCellIdentifier"
   
-  var statesMock: Array<String> = []
-  var taxMock: Array<String> = []
+  var statesMock: Array<State> = []
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(resignKeyboard))
-    view.addGestureRecognizer(tapGesture)
+    //    view.addGestureRecognizer(tapGesture)
 
     dolarTextField.delegate = self
     iofTextField.delegate = self
@@ -33,7 +36,7 @@ class SettingsViewController: UIViewController {
     statesTableView.register(StateCell.self, forCellReuseIdentifier: stateCellId)
 
     let action = UIAction { action in
-      self.presentStateAlert(isEditing: false)
+      self.presentStateAlert(state: nil, index: nil)
     }
     addStateButton.addAction(action, for: .touchUpInside)
   }
@@ -54,37 +57,57 @@ class SettingsViewController: UIViewController {
     iofTextField.resignFirstResponder()
   }
 
-  private func presentStateAlert(isEditing: Bool) {
-    let alert = UIAlertController(title: "Adicionar Estado",
-                                  message: "",
+  private func presentStateAlert(state: State?, index: Int?) {
+    let isEditing = state != nil
+    let alertTitle = isEditing ? "Editar Estado" : "Adicionar Estado"
+    let alert = UIAlertController(title: alertTitle,
+                                  message: "Por favor, insira as informações sobre o estado.",
                                   preferredStyle: .alert)
 
     // State name
     alert.addTextField { field in
       field.placeholder = "Adicione o nome do estado"
+      if let state {
+        field.text = state.name
+      }
     }
 
     // State tax
     alert.addTextField { field in
       field.placeholder = "Imposto do estado"
       field.keyboardType = .decimalPad
+      if let state {
+        field.text = state.tax
+      }
     }
 
     alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
     alert.addAction(UIAlertAction(title: isEditing ? "Editar" : "Adicionar", style: .default) { _ in
-      guard let state = alert.textFields?[0].text, !state.isEmpty,
+      guard let name = alert.textFields?[0].text, !name.isEmpty,
             let tax = alert.textFields?[1].text, !tax.isEmpty else { return }
-      self.addState(with: state, and: tax)
+
+      let state = State(name: name, tax: tax)
+      self.addState(with: state)
+
+      // Editing is not working yet
+//      if isEditing, let index {
+//        self.editState(at: index, state: state)
+//      } else {
+//        self.addState(with: state)
+//      }
     })
 
     present(alert, animated: true)
   }
 
-  private func addState(with name: String, and tax: String) {
+  private func addState(with state: State) {
     print("add a state")
-    statesMock.append(name)
-    taxMock.append(tax)
+    statesMock.append(state)
     statesTableView.reloadData()
+  }
+
+  private func editState(at index: Int, state: State) {
+
   }
 }
 
@@ -99,12 +122,15 @@ extension SettingsViewController: UITextFieldDelegate {
 }
 
 extension SettingsViewController: UITableViewDelegate {
-  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+  func tableView(_ tableView: UITableView,
+                 heightForRowAt indexPath: IndexPath) -> CGFloat {
     56
   }
 
-  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    print("selected row at \(indexPath.row)")
+  func tableView(_ tableView: UITableView,
+                 didSelectRowAt indexPath: IndexPath) {
+    tableView.deselectRow(at: indexPath, animated: true)
+    presentStateAlert(state: statesMock[indexPath.row], index: indexPath.row)
   }
 
   func tableView(_ tableView: UITableView,
@@ -112,26 +138,27 @@ extension SettingsViewController: UITableViewDelegate {
                  forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
       statesMock.remove(at: indexPath.row)
-      taxMock.remove(at: indexPath.row)
       tableView.deleteRows(at: [indexPath], with: .automatic)
     }
   }
 }
 
 extension SettingsViewController: UITableViewDataSource {
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  func tableView(_ tableView: UITableView,
+                 cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: stateCellId, for: indexPath) as? StateCell else {
       return UITableViewCell()
     }
 
-    cell.setInfo(name: statesMock[indexPath.row], tax: taxMock[indexPath.row])
+    cell.setInfo(with: statesMock[indexPath.row])
 
     return cell
   }
 
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  func tableView(_ tableView: UITableView,
+                 numberOfRowsInSection section: Int) -> Int {
     if statesMock.count == 0 {
-      statesTableView.setEmptyMessage("Your shop list is empty.\nAdd a new item using the + button above.")
+      statesTableView.setEmptyMessage("The state list is empty.\nAdd a new state using the + button below.")
     } else {
       statesTableView.restore()
     }
