@@ -5,11 +5,8 @@
 //  Created by Gabriel Patane Todaro on 07/03/23.
 //
 
+import CoreData
 import UIKit
-
-struct State {
-  let name, tax: String
-}
 
 class SettingsViewController: UIViewController {
 
@@ -20,13 +17,10 @@ class SettingsViewController: UIViewController {
 
   private let stateCellId = "stateCellIdentifier"
   
-  var statesMock: Array<State> = []
+  var states = [State]()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-
-    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(resignKeyboard))
-    //    view.addGestureRecognizer(tapGesture)
 
     dolarTextField.delegate = self
     iofTextField.delegate = self
@@ -34,22 +28,37 @@ class SettingsViewController: UIViewController {
     statesTableView.delegate = self
     statesTableView.dataSource = self
     statesTableView.register(StateCell.self, forCellReuseIdentifier: stateCellId)
-
-    let action = UIAction { action in
-      self.presentStateAlert(state: nil, index: nil)
-    }
-    addStateButton.addAction(action, for: .touchUpInside)
   }
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    getStates()
 
     dolarTextField.text = (UserDefaults.standard.string(forKey: UserDefaultsKeys.dolar.rawValue))
     iofTextField.text = (UserDefaults.standard.string(forKey: UserDefaultsKeys.iof.rawValue))
 
+    let action = UIAction { action in
+      self.presentStateAlert(state: nil, indexPath: nil)
+    }
+    addStateButton.addAction(action, for: .touchUpInside)
+
   }
 
   // MARK: Private methods
+
+  private func getStates() {
+    let statesFetch: NSFetchRequest<State> = State.fetchRequest()
+    let sortByDate = NSSortDescriptor(key: #keyPath(State.name), ascending: true)
+    statesFetch.sortDescriptors = [sortByDate]
+
+    do {
+      let managedContext = AppDelegate.shared.coreDataStack.managedContext
+      let results = try managedContext.fetch(statesFetch)
+      states = results
+    } catch let error as NSError {
+      print("Fetch error: \(error) description: \(error.userInfo)")
+    }
+  }
 
   @objc
   private func resignKeyboard() {
@@ -57,7 +66,7 @@ class SettingsViewController: UIViewController {
     iofTextField.resignFirstResponder()
   }
 
-  private func presentStateAlert(state: State?, index: Int?) {
+  private func presentStateAlert(state: State?, indexPath: IndexPath?) {
     let isEditing = state != nil
     let alertTitle = isEditing ? "Editar Estado" : "Adicionar Estado"
     let alert = UIAlertController(title: alertTitle,
@@ -77,37 +86,56 @@ class SettingsViewController: UIViewController {
       field.placeholder = "Imposto do estado"
       field.keyboardType = .decimalPad
       if let state {
-        field.text = state.tax
+        field.text = "\(state.tax)"
       }
     }
 
     alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
     alert.addAction(UIAlertAction(title: isEditing ? "Editar" : "Adicionar", style: .default) { _ in
       guard let name = alert.textFields?[0].text, !name.isEmpty,
-            let tax = alert.textFields?[1].text, !tax.isEmpty else { return }
+            let taxString = alert.textFields?[1].text, !taxString.isEmpty,
+            let tax = Double(taxString) else { return }
 
-      let state = State(name: name, tax: tax)
-      self.addState(with: state)
-
-      // Editing is not working yet
-//      if isEditing, let index {
-//        self.editState(at: index, state: state)
-//      } else {
-//        self.addState(with: state)
-//      }
+      if isEditing, let indexPath {
+        self.editState(at: indexPath, name: name, tax: tax)
+      } else {
+        let state = State(context: AppDelegate.shared.coreDataStack.managedContext)
+        state.uid = UUID()
+        state.name = name
+        state.tax = tax
+        self.addState(with: state)
+      }
     })
 
     present(alert, animated: true)
   }
 
   private func addState(with state: State) {
-    print("add a state")
-    statesMock.append(state)
-    statesTableView.reloadData()
+    states.append(state)
+    AppDelegate.shared.coreDataStack.saveContext()
+
+    DispatchQueue.main.async {
+      self.statesTableView.reloadData()
+    }
   }
 
-  private func editState(at index: Int, state: State) {
+  private func editState(at index: IndexPath, name: String, tax: Double) {
+    states[index.row].name = name
+    states[index.row].tax = tax
+    AppDelegate.shared.coreDataStack.saveContext()
 
+    DispatchQueue.main.async {
+      self.statesTableView.beginUpdates()
+      self.statesTableView.reloadRows(at: [index], with: .fade)
+      self.statesTableView.endUpdates()
+    }
+  }
+
+  private func deleteState(at index: Int) {
+    AppDelegate.shared.coreDataStack.managedContext.delete(states[index])
+    states.remove(at: index)
+
+    AppDelegate.shared.coreDataStack.saveContext()
   }
 }
 
@@ -130,14 +158,14 @@ extension SettingsViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView,
                  didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
-    presentStateAlert(state: statesMock[indexPath.row], index: indexPath.row)
+    presentStateAlert(state: states[indexPath.row], indexPath: indexPath)
   }
 
   func tableView(_ tableView: UITableView,
                  commit editingStyle: UITableViewCell.EditingStyle,
                  forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
-      statesMock.remove(at: indexPath.row)
+      deleteState(at: indexPath.row)
       tableView.deleteRows(at: [indexPath], with: .automatic)
     }
   }
@@ -150,19 +178,19 @@ extension SettingsViewController: UITableViewDataSource {
       return UITableViewCell()
     }
 
-    cell.setInfo(with: statesMock[indexPath.row])
+    cell.setInfo(with: states[indexPath.row])
 
     return cell
   }
 
   func tableView(_ tableView: UITableView,
                  numberOfRowsInSection section: Int) -> Int {
-    if statesMock.count == 0 {
+    if states.count == 0 {
       statesTableView.setEmptyMessage("The state list is empty.\nAdd a new state using the + button below.")
     } else {
       statesTableView.restore()
     }
 
-    return statesMock.count
+    return states.count
   }
 }

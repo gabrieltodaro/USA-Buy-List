@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B3296D6429D3A15B0062D3CC /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3296D6329D3A15B0062D3CC /* CoreDataHelper.swift */; };
+		B3296D6629D3A1D80062D3CC /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3296D6529D3A1D80062D3CC /* UserDefaultsKeys.swift */; };
 		B3470A4829B7FE3800584AFD /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3470A4729B7FE3800584AFD /* UITableView.swift */; };
 		B3470A4E29B8176500584AFD /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3470A4D29B8176500584AFD /* SettingsViewController.swift */; };
 		B3470A5029B8177000584AFD /* TotalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3470A4F29B8177000584AFD /* TotalViewController.swift */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B3296D6329D3A15B0062D3CC /* CoreDataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHelper.swift; sourceTree = "<group>"; };
+		B3296D6529D3A1D80062D3CC /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
 		B3470A4729B7FE3800584AFD /* UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableView.swift; sourceTree = "<group>"; };
 		B3470A4D29B8176500584AFD /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B3470A4F29B8177000584AFD /* TotalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalViewController.swift; sourceTree = "<group>"; };
@@ -49,6 +53,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B3296D6229D3A1510062D3CC /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				B3C51F6B29B162CC009C879E /* ComprasUSA.xcdatamodeld */,
+				B3296D6329D3A15B0062D3CC /* CoreDataHelper.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		B3470A4629B7FE2E00584AFD /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -60,10 +73,11 @@
 		B3470A4C29B8174100584AFD /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				B3C51F6B29B162CC009C879E /* ComprasUSA.xcdatamodeld */,
+				B3296D6229D3A1510062D3CC /* CoreData */,
 				B3C51F6E29B162CD009C879E /* Assets.xcassets */,
 				B3C51F6429B162CC009C879E /* SceneDelegate.swift */,
 				B3C51F6229B162CC009C879E /* AppDelegate.swift */,
+				B3296D6529D3A1D80062D3CC /* UserDefaultsKeys.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -185,6 +199,8 @@
 				B3C51F6729B162CC009C879E /* ShopListViewController.swift in Sources */,
 				B3C51F6D29B162CC009C879E /* ComprasUSA.xcdatamodeld in Sources */,
 				B3B3152929CF9D52000185FA /* StateCell.swift in Sources */,
+				B3296D6629D3A1D80062D3CC /* UserDefaultsKeys.swift in Sources */,
+				B3296D6429D3A15B0062D3CC /* CoreDataHelper.swift in Sources */,
 				B3470A4829B7FE3800584AFD /* UITableView.swift in Sources */,
 				B3C51F6329B162CC009C879E /* AppDelegate.swift in Sources */,
 				B3C51F6529B162CC009C879E /* SceneDelegate.swift in Sources */,

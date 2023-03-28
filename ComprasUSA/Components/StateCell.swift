@@ -46,6 +46,6 @@ class StateCell: UITableViewCell {
 
   func setInfo(with state: State) {
     nameLabel.text = state.name
-    taxLabel.text = state.tax
+    taxLabel.text = "\(state.tax)"
   }
 }
