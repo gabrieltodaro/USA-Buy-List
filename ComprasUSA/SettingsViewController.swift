@@ -42,6 +42,8 @@ class SettingsViewController: UIViewController {
     }
     addStateButton.addAction(action, for: .touchUpInside)
 
+    statesTableView.reloadData()
+
   }
 
   // MARK: Private methods
@@ -58,12 +60,6 @@ class SettingsViewController: UIViewController {
     } catch let error as NSError {
       print("Fetch error: \(error) description: \(error.userInfo)")
     }
-  }
-
-  @objc
-  private func resignKeyboard() {
-    dolarTextField.resignFirstResponder()
-    iofTextField.resignFirstResponder()
   }
 
   private func presentStateAlert(state: State?, indexPath: IndexPath?) {
