@@ -5,6 +5,7 @@
 //  Created by Gabriel Patane Todaro on 02/03/23.
 //
 
+import CoreData
 import UIKit
 
 class ShopListViewController: UIViewController {
@@ -13,7 +14,7 @@ class ShopListViewController: UIViewController {
 
   @IBOutlet weak var shopTableView: UITableView!
 
-  var productsMock = [String]()
+  var products = [Product]()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -26,10 +27,27 @@ class ShopListViewController: UIViewController {
     navigationItem.setRightBarButton(addItemButton, animated: true)
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(true)
+    getShopList()
+  }
+
+  private func getShopList() {
+    let productsFetch: NSFetchRequest<Product> = Product.fetchRequest()
+    let sortByDate = NSSortDescriptor(key: #keyPath(Product.name), ascending: true)
+    productsFetch.sortDescriptors = [sortByDate]
+
+    do {
+      let managedContext = AppDelegate.shared.coreDataStack.managedContext
+      let results = try managedContext.fetch(productsFetch)
+      products = results
+    } catch let error as NSError {
+      print("Fetch error: \(error) description: \(error.userInfo)")
+    }
+  }
+
   @objc
   private func addNewItem() {
-//    productsMock.append("Item")
-//    shopTableView.reloadData()
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
     guard let viewController = storyboard.instantiateViewController(withIdentifier: "productVCId") as? ItemViewController else {
       return
@@ -39,13 +57,25 @@ class ShopListViewController: UIViewController {
   }
 
   private func deleteItem(at indexPath: IndexPath) {
-    productsMock.remove(at: indexPath.row)
+    AppDelegate.shared.coreDataStack.managedContext.delete(products[indexPath.row])
+    products.remove(at: indexPath.row)
+
+    AppDelegate.shared.coreDataStack.saveContext()
   }
 }
 
 extension ShopListViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
+
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    guard let viewController = storyboard.instantiateViewController(withIdentifier: "productVCId") as? ItemViewController else {
+      return
+    }
+    viewController.delegate = self
+    viewController.product = products[indexPath.row]
+    viewController.indexPath = indexPath
+    navigationController?.pushViewController(viewController, animated: true)
   }
 
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -66,27 +96,36 @@ extension ShopListViewController: UITableViewDataSource {
       return UITableViewCell()
     }
 
-    cell.setInfo(name: productsMock[indexPath.row], value: "0")
+    cell.setInfo(with: products[indexPath.row])
     return cell
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if productsMock.count == 0 {
+    if products.count == 0 {
       shopTableView.setEmptyMessage("Your shop list is empty.\nAdd a new item using the + button above.")
     } else {
       shopTableView.restore()
     }
 
-    return productsMock.count
+    return products.count
   }
 }
 
 extension ShopListViewController: ProductDelegate {
   func createProduct(_ product: Product) {
+    products.append(product)
+    AppDelegate.shared.coreDataStack.saveContext()
 
+    DispatchQueue.main.async {
+      self.shopTableView.reloadData()
+    }
   }
 
-  func editProduct(_ product: Product) {
-    
+  func editProduct(at indexPath: IndexPath) {
+    DispatchQueue.main.async {
+      self.shopTableView.beginUpdates()
+      self.shopTableView.reloadRows(at: [indexPath], with: .fade)
+      self.shopTableView.endUpdates()
+    }
   }
 }

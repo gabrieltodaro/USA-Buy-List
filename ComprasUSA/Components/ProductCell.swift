@@ -30,7 +30,6 @@ class ProductCell: UITableViewCell {
       productImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
       productImageView.widthAnchor.constraint(equalToConstant: 64)
     ])
-    productImageView.image = UIImage(systemName: "photo")
     productImageView.contentMode = .scaleAspectFit
 
     let stackView = UIStackView(arrangedSubviews: [nameLabel, valueLabel])
@@ -56,12 +55,11 @@ class ProductCell: UITableViewCell {
 
   }
 
-  func setInfo(name: String, value: String) {
-    nameLabel.text = name
-    valueLabel.text = value
-  }
-
   func setInfo(with product: Product) {
+    if let imageData = product.image {
+      productImageView.image = UIImage(data: imageData)
+    }
+
     nameLabel.text = product.name
     valueLabel.text = "\(product.value)"
   }

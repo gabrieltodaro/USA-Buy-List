@@ -11,7 +11,7 @@ import UIKit
 
 protocol ProductDelegate {
   func createProduct(_ product: Product)
-  func editProduct(_ product: Product)
+  func editProduct(at indexPath: IndexPath)
 }
 
 class ItemViewController: UIViewController {
@@ -19,15 +19,17 @@ class ItemViewController: UIViewController {
   @IBOutlet weak var productNameTextField: UITextField!
   @IBOutlet weak var productImageView: UIImageView!
   @IBOutlet weak var statePickerView: UITextField!
-  @IBOutlet weak var addStateButton: UIButton!
-  @IBOutlet weak var valueInDolarTextField: UITextField!
-  @IBOutlet weak var addIOFButton: UISwitch!
-  @IBOutlet weak var addButton: UIButton!
+  @IBOutlet weak var addNewStateButton: UIButton!
+  @IBOutlet weak var priceTextField: UITextField!
+  @IBOutlet weak var usingCreditCard: UISwitch!
+  @IBOutlet weak var saveProductButton: UIButton!
 
   var delegate: ProductDelegate?
   var product: Product?
+  var indexPath: IndexPath?
 
   private var states = [State]()
+  private var selectedState: State?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -38,18 +40,32 @@ class ItemViewController: UIViewController {
     let addImageGesture = UITapGestureRecognizer(target: self, action: #selector(addImage))
     productImageView.isUserInteractionEnabled = true
     productImageView.addGestureRecognizer(addImageGesture)
+
+    saveProductButton.isEnabled = false
+
+    productNameTextField.delegate = self
+    statePickerView.delegate = self
+    priceTextField.delegate = self
   }
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     getStates()
 
-    if product != nil {
-      addButton.setTitle("EDITAR", for: .normal)
-      addButton.setTitle("EDITAR", for: .disabled)
+    if let product {
+      productNameTextField.text = product.name
+      if let imageData = product.image {
+        productImageView.image = UIImage(data: imageData)
+      }
+//      statePickerView.text = product.state.name
+      priceTextField.text = "\(product.value)"
+      usingCreditCard.setOn(product.usingCard, animated: true)
+
+      saveProductButton.setTitle("EDITAR", for: .normal)
+      saveProductButton.setTitle("EDITAR", for: .disabled)
     } else {
-      addButton.setTitle("CADASTRAR", for: .normal)
-      addButton.setTitle("CADASTRAR", for: .disabled)
+      saveProductButton.setTitle("CADASTRAR", for: .normal)
+      saveProductButton.setTitle("CADASTRAR", for: .disabled)
     }
 
     let pickerView = UIPickerView()
@@ -61,9 +77,9 @@ class ItemViewController: UIViewController {
   // MARK: Actions
   @IBAction func saveProduct(_ sender: Any) {
     if let product {
-      delegate?.editProduct(product)
+      editProduct(product)
     } else {
-      //      delegate?.createProduct()
+      createProduct()
     }
   }
 
@@ -89,7 +105,7 @@ class ItemViewController: UIViewController {
   private func resignKeyboard() {
     productNameTextField.resignFirstResponder()
     statePickerView.resignFirstResponder()
-    valueInDolarTextField.resignFirstResponder()
+    priceTextField.resignFirstResponder()
   }
 
   @objc
@@ -140,6 +156,44 @@ class ItemViewController: UIViewController {
       print("Fetch error: \(error) description: \(error.userInfo)")
     }
   }
+
+  private func createProduct() {
+    guard let productName = productNameTextField.text,
+          let selectedState,
+          let valueString = priceTextField.text,
+          let value = Double(valueString),
+          let image = productImageView.image,
+          let imageData = image.pngData() else {
+      return
+    }
+
+    let managedContext = AppDelegate.shared.coreDataStack.managedContext
+    let product = Product(context: managedContext)
+    product.name = productName
+    product.value = value
+    product.usingCard = usingCreditCard.isOn
+    product.image = imageData
+
+    delegate?.createProduct(product)
+    navigationController?.popViewController(animated: true)
+  }
+
+  private func editProduct(_ product: Product) {
+    guard let indexPath else { return }
+
+    product.name = productNameTextField.text
+
+    if let valueString = priceTextField.text, let value = Double(valueString) {
+      product.value = value
+    }
+
+    product.usingCard = usingCreditCard.isOn
+    product.image = productImageView.image?.pngData()
+
+    AppDelegate.shared.coreDataStack.saveContext()
+    delegate?.editProduct(at: indexPath)
+    navigationController?.popViewController(animated: true)
+  }
 }
 
 // MARK: - Image Picker Delegate
@@ -150,8 +204,6 @@ extension ItemViewController: UIImagePickerControllerDelegate, UINavigationContr
     switch mediaType {
       case UTType.image.identifier:
         let editedImage = info[UIImagePickerController.InfoKey.editedImage] as! UIImage
-        // Get it to save on Product Entity
-        let imageData = editedImage.pngData()
         productImageView.image = editedImage
 
       default:
@@ -182,7 +234,15 @@ extension ItemViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 
   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
     // Get it to save on Product Entity
-    let stateUid = states[row].uid
+    selectedState = states[row]
     statePickerView.text = states[row].name
+  }
+}
+
+extension ItemViewController: UITextFieldDelegate {
+  func textFieldDidEndEditing(_ textField: UITextField) {
+    saveProductButton.isEnabled = !(productNameTextField.text?.isEmpty ?? false)
+      && !(statePickerView.text?.isEmpty ?? false)
+      && !(priceTextField.text?.isEmpty ?? false)
   }
 }
