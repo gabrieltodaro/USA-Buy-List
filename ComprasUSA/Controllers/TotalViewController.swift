@@ -33,7 +33,7 @@ extension TotalViewController {
     let productsFetch: NSFetchRequest<Product> = Product.fetchRequest()
 
     do {
-      let managedContext = AppDelegate.shared.coreDataStack.managedContext
+      let managedContext = CoreDataHelper.shared.managedContext
       let results = try managedContext.fetch(productsFetch)
       addedProducts = results
     } catch let error as NSError {
@@ -63,7 +63,9 @@ extension TotalViewController {
       }
     }
 
-    usdTotalLabel.text = "US$ \(totalInUSD)"
-    brlTotalLabel.text = "R$ \(totalInBRL * dolarConversation)"
+    usdTotalLabel.text = "US$ \(totalInUSD.rounded(toPlaces: 2))"
+
+    let totalInBRLWithDolar = totalInBRL * dolarConversation
+    brlTotalLabel.text = "R$ \(totalInBRLWithDolar.rounded(toPlaces: 2))"
   }
 }

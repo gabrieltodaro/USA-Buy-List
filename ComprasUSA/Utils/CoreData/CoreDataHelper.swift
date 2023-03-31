@@ -9,11 +9,9 @@ import CoreData
 import Foundation
 
 class CoreDataHelper {
-  private let modelName: String
+  static let shared = CoreDataHelper()
 
-  init(modelName: String) {
-    self.modelName = modelName
-  }
+  private let modelName = "ComprasUSA"
 
   private lazy var persistentContainer: NSPersistentContainer = {
     /*

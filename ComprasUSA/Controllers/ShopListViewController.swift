@@ -8,20 +8,18 @@
 import CoreData
 import UIKit
 
-class ShopListViewController: UIViewController {
+class ShopListViewController: UITableViewController {
 
   private let productCellId = "productCellIdentifier"
-
-  @IBOutlet weak var shopTableView: UITableView!
 
   var products = [Product]()
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    shopTableView.dataSource = self
-    shopTableView.delegate = self
-    shopTableView.register(ProductCell.self, forCellReuseIdentifier: productCellId)
+    tableView.dataSource = self
+    tableView.delegate = self
+    tableView.register(ProductCell.self, forCellReuseIdentifier: productCellId)
 
     let addItemButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewItem))
     navigationItem.setRightBarButton(addItemButton, animated: true)
@@ -38,7 +36,7 @@ class ShopListViewController: UIViewController {
     productsFetch.sortDescriptors = [sortByDate]
 
     do {
-      let managedContext = AppDelegate.shared.coreDataStack.managedContext
+      let managedContext = CoreDataHelper.shared.managedContext
       let results = try managedContext.fetch(productsFetch)
       products = results
     } catch let error as NSError {
@@ -57,15 +55,15 @@ class ShopListViewController: UIViewController {
   }
 
   private func deleteItem(at indexPath: IndexPath) {
-    AppDelegate.shared.coreDataStack.managedContext.delete(products[indexPath.row])
+    CoreDataHelper.shared.managedContext.delete(products[indexPath.row])
     products.remove(at: indexPath.row)
 
-    AppDelegate.shared.coreDataStack.saveContext()
+    CoreDataHelper.shared.saveContext()
   }
 }
 
-extension ShopListViewController: UITableViewDelegate {
-  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+extension ShopListViewController {
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
 
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -78,20 +76,20 @@ extension ShopListViewController: UITableViewDelegate {
     navigationController?.pushViewController(viewController, animated: true)
   }
 
-  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
       deleteItem(at: indexPath)
       tableView.deleteRows(at: [indexPath], with: .automatic)
     }
   }
 
-  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+  override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     96
   }
 }
 
-extension ShopListViewController: UITableViewDataSource {
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+extension ShopListViewController {
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: productCellId, for: indexPath) as? ProductCell else {
       return UITableViewCell()
     }
@@ -100,11 +98,11 @@ extension ShopListViewController: UITableViewDataSource {
     return cell
   }
 
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if products.count == 0 {
-      shopTableView.setEmptyMessage("Your shop list is empty.\nAdd a new item using the + button above.")
+      tableView.setEmptyMessage("Sua lista está vazia!")
     } else {
-      shopTableView.restore()
+      tableView.restore()
     }
 
     return products.count
@@ -114,18 +112,18 @@ extension ShopListViewController: UITableViewDataSource {
 extension ShopListViewController: ProductDelegate {
   func createProduct(_ product: Product) {
     products.append(product)
-    AppDelegate.shared.coreDataStack.saveContext()
+    CoreDataHelper.shared.saveContext()
 
     DispatchQueue.main.async {
-      self.shopTableView.reloadData()
+      self.tableView.reloadData()
     }
   }
 
   func editProduct(at indexPath: IndexPath) {
     DispatchQueue.main.async {
-      self.shopTableView.beginUpdates()
-      self.shopTableView.reloadRows(at: [indexPath], with: .fade)
-      self.shopTableView.endUpdates()
+      self.tableView.beginUpdates()
+      self.tableView.reloadRows(at: [indexPath], with: .fade)
+      self.tableView.endUpdates()
     }
   }
 }

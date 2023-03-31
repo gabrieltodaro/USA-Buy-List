@@ -110,8 +110,8 @@ class ItemViewController: UIViewController {
 
   @objc
   private func addImage() {
-    let alert = UIAlertController(title: "Como você deseja adicionar uma foto?",
-                                  message: "",
+    let alert = UIAlertController(title: "Adicionar foto",
+                                  message: "Como você deseja adicionar uma foto?",
                                   preferredStyle: .actionSheet)
 
     let libraryAction = UIAlertAction(title: "Biblioteca de fotos", style: .default) { _ in
@@ -149,7 +149,7 @@ class ItemViewController: UIViewController {
     statesFetch.sortDescriptors = [sortByDate]
 
     do {
-      let managedContext = AppDelegate.shared.coreDataStack.managedContext
+      let managedContext = CoreDataHelper.shared.managedContext
       let results = try managedContext.fetch(statesFetch)
       states = results
     } catch let error as NSError {
@@ -167,7 +167,7 @@ class ItemViewController: UIViewController {
       return
     }
 
-    let managedContext = AppDelegate.shared.coreDataStack.managedContext
+    let managedContext = CoreDataHelper.shared.managedContext
     let product = Product(context: managedContext)
     product.name = productName
     product.value = value
@@ -190,7 +190,7 @@ class ItemViewController: UIViewController {
     product.usingCard = usingCreditCard.isOn
     product.image = productImageView.image?.pngData()
 
-    AppDelegate.shared.coreDataStack.saveContext()
+    CoreDataHelper.shared.saveContext()
     delegate?.editProduct(at: indexPath)
     navigationController?.popViewController(animated: true)
   }

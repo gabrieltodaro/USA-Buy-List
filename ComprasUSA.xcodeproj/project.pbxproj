@@ -14,6 +14,8 @@
 		B3470A4E29B8176500584AFD /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3470A4D29B8176500584AFD /* SettingsViewController.swift */; };
 		B3470A5029B8177000584AFD /* TotalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3470A4F29B8177000584AFD /* TotalViewController.swift */; };
 		B3470A5229B817A200584AFD /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3470A5129B817A200584AFD /* ItemViewController.swift */; };
+		B3AC058329D66C7100B4DB3B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B3AC058229D66C7100B4DB3B /* Settings.bundle */; };
+		B3AC058529D674AA00B4DB3B /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AC058429D674AA00B4DB3B /* Double.swift */; };
 		B3B3152929CF9D52000185FA /* StateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B3152829CF9D52000185FA /* StateCell.swift */; };
 		B3C51F6329B162CC009C879E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C51F6229B162CC009C879E /* AppDelegate.swift */; };
 		B3C51F6529B162CC009C879E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C51F6429B162CC009C879E /* SceneDelegate.swift */; };
@@ -32,6 +34,8 @@
 		B3470A4D29B8176500584AFD /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B3470A4F29B8177000584AFD /* TotalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalViewController.swift; sourceTree = "<group>"; };
 		B3470A5129B817A200584AFD /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
+		B3AC058229D66C7100B4DB3B /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		B3AC058429D674AA00B4DB3B /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		B3B3152829CF9D52000185FA /* StateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateCell.swift; sourceTree = "<group>"; };
 		B3C51F5F29B162CC009C879E /* ComprasUSA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComprasUSA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3C51F6229B162CC009C879E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				B3470A4729B7FE3800584AFD /* UITableView.swift */,
+				B3AC058429D674AA00B4DB3B /* Double.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -80,8 +85,20 @@
 				B3C51F6429B162CC009C879E /* SceneDelegate.swift */,
 				B3C51F6229B162CC009C879E /* AppDelegate.swift */,
 				B3296D6529D3A1D80062D3CC /* UserDefaultsKeys.swift */,
+				B3AC058229D66C7100B4DB3B /* Settings.bundle */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		B3AC058129D6674C00B4DB3B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B3470A5129B817A200584AFD /* ItemViewController.swift */,
+				B3C51F6629B162CC009C879E /* ShopListViewController.swift */,
+				B3470A4D29B8176500584AFD /* SettingsViewController.swift */,
+				B3470A4F29B8177000584AFD /* TotalViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		B3B3152729CF9D43000185FA /* Components */ = {
@@ -112,13 +129,10 @@
 		B3C51F6129B162CC009C879E /* ComprasUSA */ = {
 			isa = PBXGroup;
 			children = (
+				B3AC058129D6674C00B4DB3B /* Controllers */,
 				B3B3152729CF9D43000185FA /* Components */,
 				B3470A4629B7FE2E00584AFD /* Extension */,
 				B3470A4C29B8174100584AFD /* Utils */,
-				B3470A5129B817A200584AFD /* ItemViewController.swift */,
-				B3C51F6629B162CC009C879E /* ShopListViewController.swift */,
-				B3470A4D29B8176500584AFD /* SettingsViewController.swift */,
-				B3470A4F29B8177000584AFD /* TotalViewController.swift */,
 				B3C51F6829B162CC009C879E /* Main.storyboard */,
 				B3C51F7029B162CD009C879E /* LaunchScreen.storyboard */,
 				B3C51F7329B162CD009C879E /* Info.plist */,
@@ -184,6 +198,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3AC058329D66C7100B4DB3B /* Settings.bundle in Resources */,
 				B3C51F7229B162CD009C879E /* LaunchScreen.storyboard in Resources */,
 				B3C51F6F29B162CD009C879E /* Assets.xcassets in Resources */,
 				B3C51F6A29B162CC009C879E /* Main.storyboard in Resources */,
@@ -201,6 +216,7 @@
 				B3470A5229B817A200584AFD /* ItemViewController.swift in Sources */,
 				B3C51F6729B162CC009C879E /* ShopListViewController.swift in Sources */,
 				B3C51F6D29B162CC009C879E /* ComprasUSA.xcdatamodeld in Sources */,
+				B3AC058529D674AA00B4DB3B /* Double.swift in Sources */,
 				B3B3152929CF9D52000185FA /* StateCell.swift in Sources */,
 				B3296D6629D3A1D80062D3CC /* UserDefaultsKeys.swift in Sources */,
 				B3296D6429D3A15B0062D3CC /* CoreDataHelper.swift in Sources */,
@@ -358,6 +374,7 @@
 				DEVELOPMENT_TEAM = 59Q2VRCG46;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ComprasUSA/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -389,6 +406,7 @@
 				DEVELOPMENT_TEAM = 59Q2VRCG46;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ComprasUSA/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

@@ -54,7 +54,7 @@ class SettingsViewController: UIViewController {
     statesFetch.sortDescriptors = [sortByDate]
 
     do {
-      let managedContext = AppDelegate.shared.coreDataStack.managedContext
+      let managedContext = CoreDataHelper.shared.managedContext
       let results = try managedContext.fetch(statesFetch)
       states = results
     } catch let error as NSError {
@@ -95,7 +95,7 @@ class SettingsViewController: UIViewController {
       if isEditing, let indexPath {
         self.editState(at: indexPath, name: name, tax: tax)
       } else {
-        let state = State(context: AppDelegate.shared.coreDataStack.managedContext)
+        let state = State(context: CoreDataHelper.shared.managedContext)
         state.uid = UUID()
         state.name = name
         state.tax = tax
@@ -108,7 +108,7 @@ class SettingsViewController: UIViewController {
 
   private func addState(with state: State) {
     states.append(state)
-    AppDelegate.shared.coreDataStack.saveContext()
+    CoreDataHelper.shared.saveContext()
 
     DispatchQueue.main.async {
       self.statesTableView.reloadData()
@@ -118,7 +118,7 @@ class SettingsViewController: UIViewController {
   private func editState(at index: IndexPath, name: String, tax: Double) {
     states[index.row].name = name
     states[index.row].tax = tax
-    AppDelegate.shared.coreDataStack.saveContext()
+    CoreDataHelper.shared.saveContext()
 
     DispatchQueue.main.async {
       self.statesTableView.beginUpdates()
@@ -128,10 +128,10 @@ class SettingsViewController: UIViewController {
   }
 
   private func deleteState(at index: Int) {
-    AppDelegate.shared.coreDataStack.managedContext.delete(states[index])
+    CoreDataHelper.shared.managedContext.delete(states[index])
     states.remove(at: index)
 
-    AppDelegate.shared.coreDataStack.saveContext()
+    CoreDataHelper.shared.saveContext()
   }
 }
 
@@ -182,7 +182,7 @@ extension SettingsViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView,
                  numberOfRowsInSection section: Int) -> Int {
     if states.count == 0 {
-      statesTableView.setEmptyMessage("The state list is empty.\nAdd a new state using the + button below.")
+      statesTableView.setEmptyMessage("A lista de estado está vazia.\nAdicione um novo estado usando o botão + abaixo.")
     } else {
       statesTableView.restore()
     }

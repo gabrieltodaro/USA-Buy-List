@@ -11,24 +11,14 @@ import CoreData
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-  lazy var coreDataStack = CoreDataHelper(modelName: "ComprasUSA")
-
-  static let shared: AppDelegate = {
-    guard let delegate = UIApplication.shared.delegate as? AppDelegate else {
-      fatalError("Unexpected app delegate type, did it change? \(String(describing: UIApplication.shared.delegate))")
-    }
-    return delegate
-  }()
-
-
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
-    if UserDefaults.standard.value(forKey: UserDefaultsKeys.iof.rawValue) == nil {
-      UserDefaults.standard.set("5.38", forKey: UserDefaultsKeys.iof.rawValue)
+    if UserDefaults.standard.value(forKey: UserDefaultsKeys.dolar.rawValue) == nil {
+      UserDefaults.standard.set("3.2", forKey: UserDefaultsKeys.dolar.rawValue)
     }
 
-    if UserDefaults.standard.value(forKey: UserDefaultsKeys.dolar.rawValue) == nil {
-      UserDefaults.standard.set("5.19", forKey: UserDefaultsKeys.dolar.rawValue)
+    if UserDefaults.standard.value(forKey: UserDefaultsKeys.iof.rawValue) == nil {
+      UserDefaults.standard.set("6.38", forKey: UserDefaultsKeys.iof.rawValue)
     }
 
     return true
