@@ -57,7 +57,7 @@ class ItemViewController: UIViewController {
       if let imageData = product.image {
         productImageView.image = UIImage(data: imageData)
       }
-//      statePickerView.text = product.state.name
+      statePickerView.text = product.state?.name
       priceTextField.text = "\(product.value)"
       usingCreditCard.setOn(product.usingCard, animated: true)
 
@@ -169,6 +169,7 @@ class ItemViewController: UIViewController {
 
     let managedContext = CoreDataHelper.shared.managedContext
     let product = Product(context: managedContext)
+    product.state = selectedState
     product.name = productName
     product.value = value
     product.usingCard = usingCreditCard.isOn

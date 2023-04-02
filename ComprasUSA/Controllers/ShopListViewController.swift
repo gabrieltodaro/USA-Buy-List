@@ -28,6 +28,7 @@ class ShopListViewController: UITableViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(true)
     getShopList()
+    tableView.reloadData()
   }
 
   private func getShopList() {
