@@ -56,11 +56,8 @@ class ProductCell: UITableViewCell {
   }
 
   func setInfo(with product: Product) {
-    if let imageData = product.image {
-      productImageView.image = UIImage(data: imageData)
-    }
-
+    productImageView.image = product.unloadedImage
     nameLabel.text = product.name
-    valueLabel.text = "\(product.value)"
+    valueLabel.text = "\(product.price)"
   }
 }

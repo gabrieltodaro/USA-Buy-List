@@ -53,15 +53,15 @@ extension TotalViewController {
     var totalInUSD: Double = 0
 
     for product in addedProducts {
-      totalInUSD += product.value
+      totalInUSD += product.price
 
       let stateTax = product.state?.tax ?? 0
-      var brlTotalWithStateTax = product.value + ((product.value * stateTax) / 100)
+      let brlTotalWithStateTax = product.price + ((product.price * stateTax) / 100)
       if product.usingCard {
         let valueWithIOF = brlTotalWithStateTax + ((brlTotalWithStateTax * iof) / 100)
         totalInBRL += valueWithIOF
       } else {
-        totalInBRL += product.value
+        totalInBRL += brlTotalWithStateTax
       }
     }
 

@@ -48,7 +48,7 @@ class ShopListViewController: UITableViewController {
   @objc
   private func addNewItem() {
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    guard let viewController = storyboard.instantiateViewController(withIdentifier: "productVCId") as? ItemViewController else {
+    guard let viewController = storyboard.instantiateViewController(withIdentifier: "productVCId") as? ProductViewController else {
       return
     }
     viewController.delegate = self
@@ -68,7 +68,7 @@ extension ShopListViewController {
     tableView.deselectRow(at: indexPath, animated: true)
 
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    guard let viewController = storyboard.instantiateViewController(withIdentifier: "productVCId") as? ItemViewController else {
+    guard let viewController = storyboard.instantiateViewController(withIdentifier: "productVCId") as? ProductViewController else {
       return
     }
     viewController.delegate = self

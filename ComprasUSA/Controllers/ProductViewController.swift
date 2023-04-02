@@ -14,7 +14,7 @@ protocol ProductDelegate {
   func editProduct(at indexPath: IndexPath)
 }
 
-class ItemViewController: UIViewController {
+class ProductViewController: UIViewController {
 
   @IBOutlet weak var productNameTextField: UITextField!
   @IBOutlet weak var productImageView: UIImageView!
@@ -54,11 +54,9 @@ class ItemViewController: UIViewController {
 
     if let product {
       productNameTextField.text = product.name
-      if let imageData = product.image {
-        productImageView.image = UIImage(data: imageData)
-      }
+      productImageView.image = product.unloadedImage
       statePickerView.text = product.state?.name
-      priceTextField.text = "\(product.value)"
+      priceTextField.text = "\(product.price)"
       usingCreditCard.setOn(product.usingCard, animated: true)
 
       saveProductButton.setTitle("EDITAR", for: .normal)
@@ -171,9 +169,9 @@ class ItemViewController: UIViewController {
     let product = Product(context: managedContext)
     product.state = selectedState
     product.name = productName
-    product.value = value
+    product.price = value
     product.usingCard = usingCreditCard.isOn
-    product.image = imageData
+    product.imageData = imageData
 
     delegate?.createProduct(product)
     navigationController?.popViewController(animated: true)
@@ -185,11 +183,11 @@ class ItemViewController: UIViewController {
     product.name = productNameTextField.text
 
     if let valueString = priceTextField.text, let value = Double(valueString) {
-      product.value = value
+      product.price = value
     }
 
     product.usingCard = usingCreditCard.isOn
-    product.image = productImageView.image?.pngData()
+    product.imageData = productImageView.image?.pngData()
 
     CoreDataHelper.shared.saveContext()
     delegate?.editProduct(at: indexPath)
@@ -198,7 +196,7 @@ class ItemViewController: UIViewController {
 }
 
 // MARK: - Image Picker Delegate
-extension ItemViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension ProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
     // Check for the media type
     let mediaType = info[UIImagePickerController.InfoKey.mediaType] as! String
@@ -220,7 +218,7 @@ extension ItemViewController: UIImagePickerControllerDelegate, UINavigationContr
 }
 
 // MARK: - Picker Delegate & Data Source
-extension ItemViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+extension ProductViewController: UIPickerViewDelegate, UIPickerViewDataSource {
   func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
     states.count
   }
@@ -240,7 +238,7 @@ extension ItemViewController: UIPickerViewDelegate, UIPickerViewDataSource {
   }
 }
 
-extension ItemViewController: UITextFieldDelegate {
+extension ProductViewController: UITextFieldDelegate {
   func textFieldDidEndEditing(_ textField: UITextField) {
     saveProductButton.isEnabled = !(productNameTextField.text?.isEmpty ?? false)
       && !(statePickerView.text?.isEmpty ?? false)
